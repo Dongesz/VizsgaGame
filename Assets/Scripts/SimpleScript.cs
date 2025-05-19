@@ -6,22 +6,6 @@ public class VolumeController : MonoBehaviour
     public Slider volumeSlider; // Referencia a Slider komponenshez
     public AudioSource audioSource; // Referencia az AudioSource-hoz
 
-    private static VolumeController instance; // Statikus példány a Singleton mintához
-
-    void Awake()
-    {
-        // Ellenőrzés, hogy van-e már egy példány
-        if (instance == null)
-        {
-            instance = this; // Ha nincs, akkor beállítjuk az aktuális példányt
-            DontDestroyOnLoad(gameObject); // Megakadályozza, hogy a zene törlődjön jelenetváltáskor
-        }
-        else
-        {
-            Destroy(gameObject); // Ha van már egy példány, akkor töröljük az újat
-        }
-    }
-
     void Start()
     {
         // Alapértelmezett érték beállítása

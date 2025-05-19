@@ -18,7 +18,7 @@ public class DataBaseManager : MonoBehaviour
     /* ─── Inspector mezők ─── */
     [SerializeField] private TMP_Text test;
     [SerializeField] private TMP_InputField usernameInput, passwordInput;
-    [SerializeField] private GameObject LoginPanel, ProfilPanel, ProfileBtn, LoginBtn;
+    [SerializeField] private GameObject LoginPanel, ProfilPanel;
 
     private ProfileManager profileManager;
     private int currentUserId = -1;
@@ -121,32 +121,49 @@ public class DataBaseManager : MonoBehaviour
             conn.Open();
 
             const string sql = @"
-                SELECT id, username, email, password, created_at
-                FROM   users
-                WHERE  username = @u";
+            SELECT id, username, email, password 
+            FROM users
+            WHERE username = @u;
+            
+            SELECT `kill`, `win` 
+            FROM Scoreboard
+            WHERE user_id = (SELECT id FROM users WHERE username = @u);";
+
             using var cmd = new MySqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@u", user);
 
             using var rdr = cmd.ExecuteReader();
+
             if (!rdr.Read()) { Debug.Log("❌ Nincs ilyen felhasználó."); return; }
 
             int dbId = rdr.GetInt32("id");
             string dbUser = rdr.GetString("username");
             string dbMail = rdr.GetString("email");
             string dbPass = rdr.GetString("password");
-            string created = rdr.GetDateTime("created_at").ToString("yyyy-MM-dd HH:mm:ss");
 
             if (pass != dbPass) { Debug.Log("❌ Hibás jelszó."); return; }
 
-            currentUserId = dbId;                                  // ← ELTÁROLJUK AZ id-t
+            string dbKills = "0";
+            string dbWins = "0";
 
-            LoginPanel.SetActive(false); LoginBtn.SetActive(false);
-            ProfilPanel.SetActive(true); ProfileBtn.SetActive(true);
+            if (rdr.NextResult() && rdr.Read()) // ← Második lekérdezés eredménye
+            {
+                dbKills = rdr["kill"].ToString();
+                dbWins = rdr["win"].ToString();
+            }
 
-            profileManager?.SetProfile(dbUser, dbMail, created);
+            currentUserId = dbId;
+
+            LoginPanel.SetActive(false);
+            ProfilPanel.SetActive(true);
+
+            profileManager?.SetProfile(dbUser, dbMail, dbKills, dbWins);
             Debug.Log($"✅ Bejelentkezve: {dbUser} (id={dbId})");
         }
-        catch (Exception ex) { Debug.LogError("❌ DB-hiba login közben: " + ex.Message); }
+        catch (Exception ex)
+        {
+            Debug.LogError("❌ DB-hiba login közben: " + ex.Message);
+        }
     }
 
     /* ───────── LOGOUT ───────── */
@@ -155,8 +172,8 @@ public class DataBaseManager : MonoBehaviour
         currentUserId = -1;
         usernameInput.text = passwordInput.text = "";
 
-        LoginPanel.SetActive(true); LoginBtn.SetActive(true);
-        ProfilPanel.SetActive(false); ProfileBtn.SetActive(false);
+        LoginPanel.SetActive(true); 
+        ProfilPanel.SetActive(false); 
 
         Debug.Log("Kijelentkezve.");
     }
