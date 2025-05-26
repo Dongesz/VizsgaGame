@@ -6,7 +6,6 @@ using MySqlConnector;
 
 public class DataBaseManager : MonoBehaviour
 {
-    /* ─── Kapcsolati adatok ─── */
     private const string CS =
         "Server=srv1.tarhely.pro;" +
         "Database=v2labgwj_kando1;" +
@@ -15,7 +14,6 @@ public class DataBaseManager : MonoBehaviour
         "Charset=utf8mb4;SslMode=Preferred;" +
         "ConnectionTimeout=5;DefaultCommandTimeout=30;";
 
-    /* ─── Inspector mezők ─── */
     [SerializeField] private TMP_Text test;
     [SerializeField] private TMP_InputField usernameInput, passwordInput;
     [SerializeField] private GameObject LoginPanel, ProfilPanel;
@@ -25,7 +23,6 @@ public class DataBaseManager : MonoBehaviour
 
     private void Start() => profileManager = FindAnyObjectByType<ProfileManager>();
 
-    /* ───────── LISTA ───────── */
     public void DisplayDatabase()
     {
         var rows = new List<ScoreBoard>();
@@ -109,7 +106,7 @@ public class DataBaseManager : MonoBehaviour
     }
 
 
-    /* ───────── LOGIN ───────── */
+   
     public void TryLogin()
     {
         string user = usernameInput.text.Trim();
@@ -134,14 +131,14 @@ public class DataBaseManager : MonoBehaviour
 
             using var rdr = cmd.ExecuteReader();
 
-            if (!rdr.Read()) { Debug.Log("❌ Nincs ilyen felhasználó."); return; }
+            if (!rdr.Read()) { Debug.Log("Nincs ilyen felhasználó."); return; }
 
             int dbId = rdr.GetInt32("id");
             string dbUser = rdr.GetString("username");
             string dbMail = rdr.GetString("email");
             string dbPass = rdr.GetString("password");
 
-            if (pass != dbPass) { Debug.Log("❌ Hibás jelszó."); return; }
+            if (pass != dbPass) { Debug.Log("Hibás jelszó."); return; }
 
             string dbKills = "0";
             string dbWins = "0";
@@ -158,15 +155,14 @@ public class DataBaseManager : MonoBehaviour
             ProfilPanel.SetActive(true);
 
             profileManager?.SetProfile(dbUser, dbMail, dbKills, dbWins);
-            Debug.Log($"✅ Bejelentkezve: {dbUser} (id={dbId})");
+            Debug.Log($"Bejelentkezve: {dbUser} (id={dbId})");
         }
         catch (Exception ex)
         {
-            Debug.LogError("❌ DB-hiba login közben: " + ex.Message);
+            Debug.LogError("DB-hiba login közben: " + ex.Message);
         }
     }
 
-    /* ───────── LOGOUT ───────── */
     public void LogOut()
     {
         currentUserId = -1;
@@ -177,6 +173,45 @@ public class DataBaseManager : MonoBehaviour
 
         Debug.Log("Kijelentkezve.");
     }
+
+    public void RefreshProfile()
+    {
+        try
+        {
+            using var conn = new MySqlConnection(CS);
+            conn.Open();
+
+            const string sql = @"
+            SELECT u.username, u.email, s.kill, s.win
+            FROM   users u
+            JOIN   Scoreboard s ON s.user_id = u.id
+            WHERE  u.id = @id
+            LIMIT  1;";
+
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = currentUserId;
+
+            using var rdr = cmd.ExecuteReader();
+
+            if (!rdr.Read())
+            {
+                Debug.LogWarning("Nem találtam felhasználót a frissítéshez.");
+                return;
+            }
+
+            string username = rdr.GetString("username");
+            string email = rdr.GetString("email");
+            string kills = rdr.GetInt32("kill").ToString();
+            string wins = rdr.GetInt32("win").ToString();
+
+            profileManager?.SetProfile(username, email, kills, wins);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Hiba profilfrissítés közben: " + ex.Message);
+        }
+    }
+
 }
 
 
