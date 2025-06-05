@@ -21,6 +21,12 @@ public class DataBaseManager : MonoBehaviour
     private ProfileManager profileManager;
     private int currentUserId = -1;
 
+    public AudioSource errorSfxPlayer;        
+    public AudioClip errorSound;
+    public AudioSource correctSfxPlayer;
+    public AudioClip correctSound;
+
+
     private void Start() => profileManager = FindAnyObjectByType<ProfileManager>();
 
     public void DisplayDatabase()
@@ -57,13 +63,13 @@ public class DataBaseManager : MonoBehaviour
             test.text = $"Rekordok száma: {rows.Count}";
         }
         catch (Exception ex) { test.text = "DB-hiba: " + ex.Message; }
-    }
+    } // for test
 
     public void UpdateDatabase(int addKills)
     {
         if (currentUserId <= 0)
         {
-            Debug.LogWarning("❌ Nincs bejelentkezve felhasználó.");
+            Debug.LogWarning("Nincs bejelentkezve felhasználó.");
             return;
         }
 
@@ -72,7 +78,6 @@ public class DataBaseManager : MonoBehaviour
             using var conn = new MySqlConnection(CS);
             conn.Open();
 
-            /* 1) UPDATE  ------------------------------------------------ */
             const string upd = @"
             UPDATE `Scoreboard`
             SET    `kill` = `kill` + @k,
@@ -82,10 +87,9 @@ public class DataBaseManager : MonoBehaviour
             updCmd.Parameters.AddWithValue("@k", addKills);
             updCmd.Parameters.AddWithValue("@id", currentUserId);
 
-            int rows = updCmd.ExecuteNonQuery();   // csak akkor >0, ha talált sort
+            int rows = updCmd.ExecuteNonQuery(); 
             Debug.Log($"UPDATE sorok: {rows}");
 
-            /* 2) INSERT, ha nem volt találat ----------------------------- */
             if (rows == 0)
             {
                 const string ins = @"
@@ -101,12 +105,10 @@ public class DataBaseManager : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError("❌ DB-hiba frissítéskor: " + ex.Message);
+            Debug.LogError("DB-hiba frissítéskor: " + ex.Message);
         }
     }
 
-
-   
     public void TryLogin()
     {
         string user = usernameInput.text.Trim();
@@ -131,19 +133,27 @@ public class DataBaseManager : MonoBehaviour
 
             using var rdr = cmd.ExecuteReader();
 
-            if (!rdr.Read()) { Debug.Log("Nincs ilyen felhasználó."); return; }
+            if (!rdr.Read()) {
+                    Debug.Log("Nincs ilyen felhasználó.");
+                    errorSfxPlayer.PlayOneShot(errorSound);
+                    return;
+                }
 
-            int dbId = rdr.GetInt32("id");
+
+                int dbId = rdr.GetInt32("id");
             string dbUser = rdr.GetString("username");
             string dbMail = rdr.GetString("email");
             string dbPass = rdr.GetString("password");
 
-            if (pass != dbPass) { Debug.Log("Hibás jelszó."); return; }
-
-            string dbKills = "0";
+            if (pass != dbPass) {
+                        Debug.Log("Hibás jelszó.");
+                        errorSfxPlayer.PlayOneShot(errorSound);
+                        return;
+                }
+                string dbKills = "0";
             string dbWins = "0";
 
-            if (rdr.NextResult() && rdr.Read()) // ← Második lekérdezés eredménye
+            if (rdr.NextResult() && rdr.Read())
             {
                 dbKills = rdr["kill"].ToString();
                 dbWins = rdr["win"].ToString();
@@ -156,6 +166,7 @@ public class DataBaseManager : MonoBehaviour
 
             profileManager?.SetProfile(dbUser, dbMail, dbKills, dbWins);
             Debug.Log($"Bejelentkezve: {dbUser} (id={dbId})");
+            correctSfxPlayer.PlayOneShot(correctSound);
         }
         catch (Exception ex)
         {

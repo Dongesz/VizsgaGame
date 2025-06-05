@@ -19,6 +19,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject MainMenuObj;
     public TMP_Text currentlevel;
 
+    public AudioSource WinSfxPlayer;
+    public AudioClip WinSound;
+    public AudioSource LostSfxPlayer;
+    public AudioClip LostSound;
+
     public int currency;
     public int kills;
     public int health;
@@ -30,7 +35,6 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        currency = 2000;
         health = 100;
         mainMenu = FindObjectOfType<MainMenu>();
         dataBaseManager = FindObjectOfType<DataBaseManager>();
@@ -41,6 +45,7 @@ public class LevelManager : MonoBehaviour
         if (health <= 0)
         {
             mainMenu.FullReset();
+            LostSfxPlayer.PlayOneShot(LostSound);
             LostScreen.SetActive(true);
             return;
         }
@@ -53,13 +58,12 @@ public class LevelManager : MonoBehaviour
 
             // ⬅︎ 2) most resetelhetsz
             mainMenu.FullReset();
-
+            WinSfxPlayer.PlayOneShot(WinSound);
             WinScreen.SetActive(true);
         }
     }
 
 
-    // ───────────  PÉNZ / STATISZTIKÁK  ───────────
     public void IncreaseCurrency(int amount) => currency += amount;
     public void IncreaseKills(int amount) => kills += amount;
     public void DecreaseHp(int amount) => health -= amount;

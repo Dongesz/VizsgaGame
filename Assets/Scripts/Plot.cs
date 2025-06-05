@@ -7,6 +7,8 @@ public class Plot : MonoBehaviour
     [SerializeField] private GameObject plot;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Color hoverColor;
+    public AudioSource buildSfxPlayer;
+    public AudioClip BuildSound;
 
     private GameObject tower;
     private Color startColor;
@@ -15,7 +17,7 @@ public class Plot : MonoBehaviour
 
     private void Start()
     {
-        // 💡 Szín beállítása típus szerint
+        // Szín beállítása típus szerint
         if (isStonePlot)
             startColor = Color.white;
         else
@@ -39,12 +41,10 @@ public class Plot : MonoBehaviour
         Tower towerToBuild = BuildManager.main.GetSelectedTower();
         int selected = BuildManager.main.SelctedTower;
 
-        // 💡 Kőtorony és stonespawn plot
         if (selected == 1 && isStonePlot)
         {
             TryBuildTower(towerToBuild);
         }
-        // 💡 Normál torony és nem stone plot
         else if (selected != 1 && !isStonePlot)
         {
             TryBuildTower(towerToBuild);
@@ -64,6 +64,7 @@ public class Plot : MonoBehaviour
         LevelManager.main.SpendCurrency(towerToBuild.cost);
         tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
         sr.enabled = false;
+        buildSfxPlayer.PlayOneShot(BuildSound);
     }
 
     public void ResetPlot()

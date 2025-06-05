@@ -47,7 +47,7 @@ public class MainMenu : MonoBehaviour
         enemySpawner = FindObjectOfType<EnemySpawner>();
         levelManager.health = 100;
         levelManager.kills = 0;
-        levelManager.currency = 2000;
+        levelManager.currency = 100;
         enemySpawner.currentWave = 1;
     } // Reset all lvlstats in "GameScene"
     public void ResetAllPlots()
