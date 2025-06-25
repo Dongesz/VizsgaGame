@@ -16,7 +16,7 @@ public class VolumeController : MonoBehaviour
             audioSource.volume = defaultVolume;
         }
 
-        // Feliratkozás az OnValueChanged eseményre
+        // Ha a valtozo erteke megvaltozik, meghivja a setvolume-ot
         volumeSlider.onValueChanged.AddListener(SetVolume);
     }
 
