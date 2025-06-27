@@ -1,3 +1,6 @@
+// @desc: Animates sprite frames and flips sprite direction based on movement
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using UnityEngine;
 
 public class SpriteAnimator : MonoBehaviour

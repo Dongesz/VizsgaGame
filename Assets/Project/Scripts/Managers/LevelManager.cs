@@ -1,4 +1,7 @@
-﻿using System;
+﻿// @desc: Core level controller managing health, win/lose conditions, and shared references
+// @lastWritten: 2025-06-27
+// @upToDate: false
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

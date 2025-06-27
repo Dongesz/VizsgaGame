@@ -1,3 +1,6 @@
+// @desc: Handles turret targeting, shooting logic, and enemy detection within range
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

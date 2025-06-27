@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// @desc: Controls global audio volume using a UI slider linked to an AudioSource
+// @lastWritten: 2025-06-27
+// @upToDate: false
+using UnityEngine;
 using UnityEngine.UI;
 
 public class VolumeController : MonoBehaviour

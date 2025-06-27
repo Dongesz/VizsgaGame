@@ -1,3 +1,6 @@
+// @desc: Controls game menu UI, stat display, sprite switching, and animation toggle
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

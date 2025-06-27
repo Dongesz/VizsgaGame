@@ -1,3 +1,6 @@
+// @desc: Serializable data class representing a tower with name, cost, and prefab reference
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System;
 using UnityEngine;
 

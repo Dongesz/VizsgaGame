@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// @desc: Controls enemy wave spawning, difficulty scaling, and wave lifecycle management
+// @lastWritten: 2025-06-27
+// @upToDate: false
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;

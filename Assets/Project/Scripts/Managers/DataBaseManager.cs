@@ -1,4 +1,7 @@
-﻿using System;
+﻿// @desc: Handles MySQL database connection for login, stats update, and profile management
+// @lastWritten: 2025-06-27
+// @upToDate: false
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;

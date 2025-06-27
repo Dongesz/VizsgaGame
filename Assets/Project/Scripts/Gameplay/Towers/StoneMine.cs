@@ -1,3 +1,6 @@
+// @desc: Controls the visibility of the resource bar on mouse hover over a stone mine
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

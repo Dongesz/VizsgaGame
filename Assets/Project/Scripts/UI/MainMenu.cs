@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// @desc: Handles main menu actions including level reset, stat wipe, and application quit
+// @lastWritten: 2025-06-27
+// @upToDate: false
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;

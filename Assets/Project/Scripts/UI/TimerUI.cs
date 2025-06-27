@@ -1,3 +1,6 @@
+// @desc: Updates timer control UI (start/stop and speed icons) based on TimerManager state
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using UnityEngine;
 using UnityEngine.UI;
 

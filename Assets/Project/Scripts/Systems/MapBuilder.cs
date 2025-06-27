@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// @desc: Builds the selected level by assigning path points and plot references to LevelManager
+// @lastWritten: 2025-06-27
+// @upToDate: false
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

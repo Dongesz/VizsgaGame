@@ -1,3 +1,6 @@
+// @desc: Animates cooldown bar sprite sequence during active wave and rewards player on completion
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using UnityEngine;
 
@@ -53,13 +56,5 @@ public class CooldownBarAnimator : MonoBehaviour
             // A feltétel ellenõrzése a ciklus végén
         }
     }
-
-
-    public void StopMining()
-    {
-    }
-
-
-
 }
  

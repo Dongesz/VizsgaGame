@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// @desc: Handles buildable plot behavior, including tower placement, hover feedback, and reset logic
+// @lastWritten: 2025-06-27
+// @upToDate: false
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

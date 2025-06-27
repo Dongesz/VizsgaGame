@@ -1,3 +1,6 @@
+// @desc: Controls enemy movement along path and handles end-of-path behavior
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;

@@ -1,3 +1,6 @@
+// @desc: Displays player profile data (username, email, kills, wins) in the UI
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

@@ -1,3 +1,6 @@
+// @desc: Manages tower selection logic and provides access to currently selected tower prefab
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

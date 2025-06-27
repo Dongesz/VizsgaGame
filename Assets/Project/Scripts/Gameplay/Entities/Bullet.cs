@@ -1,3 +1,6 @@
+// @desc: Controls bullet movement, damage application, and auto-destruction after delay or collision
+// @lastWritten: 2025-06-27
+// @upToDate: false
 using System.Collections;
 using UnityEngine;
 
