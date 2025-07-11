@@ -1,48 +1,31 @@
 // @desc: Updates timer control UI (start/stop and speed icons) based on TimerManager state
-// @lastWritten: 2025-06-27
-// @upToDate: false
+// @lastWritten: 2025-07-1
+// @upToDate: true
+using CastL.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimerUI : MonoBehaviour
+namespace CastL.UI
 {
-    [Header("UI Components")]
-    [SerializeField] private Image startStopImage;
-    [SerializeField] private Image speedImage;
-
-    [Header("Sprites")]
-    [SerializeField] private Sprite spritePlay;
-    [SerializeField] private Sprite spritePause;
-    [SerializeField] private Sprite spriteFast;
-    [SerializeField] private Sprite spriteNormal;
-
-    private void Start()
+    public class TimerUI : MonoBehaviour
     {
-        TimerManager.Instance.OnTimerToggled += UpdateStartStopSprite;
-        TimerManager.Instance.OnSpeedToggled += UpdateSpeedSprite;
 
-        UpdateStartStopSprite();
-        UpdateSpeedSprite();
-    }
+        [SerializeField] private Image startStopImage;
 
-    public void UpdateStartStopSprite()
-    {
-        bool isRunning = TimerManager.Instance.isGameRunning;
 
-        if (startStopImage != null)
+        [SerializeField] private Sprite spritePlay;
+        [SerializeField] private Sprite spritePause;
+
+        private void Start()
         {
-            startStopImage.sprite = isRunning ? spritePause : spritePlay;
+            GameLoopManager.Instance.OnStateChanged += UpdateSprite;
+            UpdateSprite(GameLoopManager.Instance.current);
+        }
+
+        public void UpdateSprite(GameLoopManager.GameState state)
+        {
+            startStopImage.sprite = (state == GameLoopManager.GameState.Running) ? spritePause : spritePlay;    
+                                        
         }
     }
-
-    public void UpdateSpeedSprite()
-    {
-        bool isFast = TimerManager.Instance.isFastForward;
-
-        if (speedImage != null)
-        {
-            speedImage.sprite = isFast ? spriteFast : spriteNormal;
-        }
-    }
-    
 }

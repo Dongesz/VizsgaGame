@@ -1,60 +1,60 @@
-// @desc: Animates cooldown bar sprite sequence during active wave and rewards player on completion
-// @lastWritten: 2025-06-27
-// @upToDate: false
+// @desc: WorkInPogress
+// @lastWritten: 2025-07-08
+// @upToDate: true
+using CastL.Managers;
 using System.Collections;
 using UnityEngine;
 
-public class CooldownBarAnimator : MonoBehaviour
+namespace CastL.UI
 {
-    public SpriteRenderer cooldownRenderer; // A SpriteRenderer komponens, amely a cooldown sprite-ot jeleníti meg
-    public Sprite[] cooldownSprites; // A 7 sprite tárolása
-    public Sprite cooldownSpritesstop; 
-    public float cooldownDuration = 2.0f; // Teljes cooldown idõ
-    private float timePerFrame;
-    private int currentFrame;
-    private float timer;
-
-    private TimerManager TimerScript;
-    private EnemySpawner EnemySpawnerScript;
-
-
-    void Start()
+    public class CooldownBarAnimator : MonoBehaviour
     {
-        TimerScript = FindObjectOfType<TimerManager>();
-        EnemySpawnerScript = FindObjectOfType<EnemySpawner>();
-        timePerFrame = cooldownDuration / cooldownSprites.Length;
-        currentFrame = 0;
-        timer = 0f;
-    }
-    void Update()
-    {
-        StartMining();
-    }
-
-
-    public void StartMining()
-    {
-        if(EnemySpawnerScript.isWaveActive)
+        /*
+        public SpriteRenderer cooldownRenderer; // A SpriteRenderer komponens, amely a cooldown sprite-ot jeleníti meg
+        public Sprite[] cooldownSprites; // A 7 sprite tárolása
+        public float cooldownDuration = 2.0f; // Teljes cooldown idõ
+        public float timePerFrame;
+        public int currentFrame;
+        public float timer;
+        public bool finished;
+        public void StartMiningAnimation()
         {
-            // Idõ frissítése
-            timer += Time.deltaTime;
+            StopAllCoroutines();
+            StartCoroutine(AnimateCooldown());
+        }
+        public void StopMiningAnimation()
+        {
+            StopAllCoroutines();
+        }
+        private IEnumerator AnimateCooldown()
+        {
+            timePerFrame = cooldownDuration / cooldownSprites.Length;
+            currentFrame = 0;
+            timer = 0f;
 
-            if (timer >= timePerFrame)
+            while (WaveManager.Instance.isWaveActive)
             {
-                timer -= timePerFrame;
-                currentFrame = (currentFrame + 1) % cooldownSprites.Length;
-                cooldownRenderer.sprite = cooldownSprites[currentFrame];
+                timer += Time.deltaTime;
 
-                // Ha elérte az animáció végét
+                if (timer >= timePerFrame)
+                {
+                    timer -= timePerFrame;
+                    currentFrame = (currentFrame + 1) % cooldownSprites.Length;
+                    cooldownRenderer.sprite = cooldownSprites[currentFrame];
+                }
+
                 if (currentFrame == 0)
                 {
-                    // Az animáció befejezõdött, hívja meg a LevelManager metódust
-                    LevelManager.main.IncreaseCurrency(50);
+                    finished = true;
                 }
-            }
+                else
+                {
+                    finished = false;
+                }
 
-            // A feltétel ellenõrzése a ciklus végén
-        }
+                yield return null;
+            }
+        }*/
     }
+
 }
- 

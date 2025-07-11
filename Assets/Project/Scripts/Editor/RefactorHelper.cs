@@ -1,3 +1,5 @@
+// TODO: sorok számolása, importance címke, hasTest címke, dependency tree generálás, CSV/ASCII export, OnGUI detektálás
+
 using UnityEditor;
 using UnityEngine;
 using System;

@@ -1,77 +1,75 @@
 // @desc: Handles turret targeting, shooting logic, and enemy detection within range
-// @lastWritten: 2025-06-27
-// @upToDate: false
-using System.Collections;
-using System.Collections.Generic;
+// @lastWritten: 2025-07-03
+// @upToDate: true
 using UnityEngine;
-using UnityEditor;
 
-public class BaseTurret : MonoBehaviour
+namespace CastL.Gameplay
 {
-    [Header("References")]
-
-    [SerializeField] private LayerMask enemyMask;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform firingPoint;
-    [Header("Attribute")]
-    [SerializeField] private float targetingRange = 5f;
-    [SerializeField] private float bps = 1f;
-    [SerializeField] private int TowerDmg = 50;
-    [Header("Idle Settings")]
-    
-    private Transform target;
-    private float timeUntilFire;
-
-    private void Update()
+    public class BaseTurret : MonoBehaviour
     {
-        if (target == null)
-        {
-            FindTarget();
-        }
+        [Header("References")]
 
+        [SerializeField] private LayerMask enemyMask;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private Transform firingPoint;
+        [Header("Attribute")]
+        [SerializeField] private float targetingRange = 5f;
+        [SerializeField] private float bps = 1f;
+        [SerializeField] private int TowerDmg = 50;
+        [Header("Idle Settings")]
 
-        if (!CheckTargetIsInRange())
-        {
-            target = null;
-        }
-        else
-        {
-            timeUntilFire += Time.deltaTime;
+        private Transform target;
+        private float timeUntilFire;
 
-            if (timeUntilFire >= 1f / bps)
+        private void Update()
+        {
+            if (target == null)
             {
-                Shoot();
-                timeUntilFire = 0f;
+                FindTarget();
+            }
+
+
+            if (!CheckTargetIsInRange())
+            {
+                target = null;
+            }
+            else
+            {
+                timeUntilFire += Time.deltaTime;
+
+                if (timeUntilFire >= 1f / bps)
+                {
+                    Shoot();
+                    timeUntilFire = 0f;
+                }
             }
         }
-    }
-    private void Shoot()
-    {
-        GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
-        Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-        bulletScript.SetTarget(target);
-        bulletScript.setDmg(TowerDmg);
-    }
-    private void FindTarget()
-    {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
-
-        if (hits.Length > 0)
+        private void Shoot()
         {
-            target = hits[0].transform;
+            GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
+            BasicBullet bulletScript = bulletObj.GetComponent<BasicBullet>();
+            bulletScript.SetTarget(target);
+            bulletScript.setDmg(TowerDmg);
         }
-        else
+        private void FindTarget()
         {
-            target = null; // Biztosítsuk, hogy a target null legyen, ha nincs találat
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
+
+            if (hits.Length > 0)
+            {
+                target = hits[0].transform;
+            }
+            else
+            {
+                target = null; // Biztosítsuk, hogy a target null legyen, ha nincs találat
+            }
+        }
+        private bool CheckTargetIsInRange()
+        {
+            if (target == null)
+                return false;
+
+            return Vector2.Distance(target.position, transform.position) <= targetingRange;
         }
     }
-    private bool CheckTargetIsInRange()
-    {
-        if (target == null)
-            return false;
-
-        return Vector2.Distance(target.position, transform.position) <= targetingRange;
-    }
-
-    
 }

@@ -1,128 +1,89 @@
-﻿// @desc: Handles MySQL database connection for login, stats update, and profile management
-// @lastWritten: 2025-06-27
-// @upToDate: false
+﻿// @desc: WorkInProgress
+// @lastWritten: 2025-07-08
+// @upToDate: true
+// @TODO: UI kiszervezese a scriptbol, Bcrypt beepitese
+using MySqlConnector;
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using MySqlConnector;
 
-public class DataBaseManager : MonoBehaviour
+namespace CastL.Managers
 {
-    private const string CS =
-        "Server=srv1.tarhely.pro;" +
-        "Database=v2labgwj_kando1;" +
-        "Uid=v2labgwj_kando1;" +
-        "Pwd=W5SzE2z94Jxkwx4836M6;" +
-        "Charset=utf8mb4;SslMode=Preferred;" +
-        "ConnectionTimeout=5;DefaultCommandTimeout=30;";
-
-    [SerializeField] private TMP_Text test;
-    [SerializeField] private TMP_InputField usernameInput, passwordInput;
-    [SerializeField] private GameObject LoginPanel, ProfilPanel;
-
-    private ProfileManager profileManager;
-    private int currentUserId = -1;
-
-    public AudioSource errorSfxPlayer;        
-    public AudioClip errorSound;
-    public AudioSource correctSfxPlayer;
-    public AudioClip correctSound;
-
-
-    private void Start() => profileManager = FindAnyObjectByType<ProfileManager>();
-
-    public void DisplayDatabase()
+    public class DataBaseManager : MonoBehaviour
     {
-        var rows = new List<ScoreBoard>();
+        public static DataBaseManager Instance;
+        private const string CS =
+            "Server=srv1.tarhely.pro;" +
+            "Database=v2labgwj_kando1;" +
+            "Uid=v2labgwj_kando1;" +
+            "Pwd=W5SzE2z94Jxkwx4836M6;" +
+            "Charset=utf8mb4;SslMode=Preferred;" +
+            "ConnectionTimeout=5;DefaultCommandTimeout=30;";
 
-        try
+        [SerializeField] private TMP_InputField usernameInput, passwordInput;
+        [SerializeField] private GameObject LoginPanel, ProfilPanel;
+
+        private int currentUserId = -1;
+
+        private void Awake()
         {
-            using var conn = new MySqlConnection(CS);
-            conn.Open();
+            Instance = this;
+        }
 
-            const string sql = @"
-                SELECT sb.id,
-                       u.username,
-                       sb.kill,
-                       sb.win
-                FROM   Scoreboard sb
-                       JOIN users u ON u.id = sb.user_id
-                ORDER  BY sb.kill DESC;";
-
-            using var cmd = new MySqlCommand(sql, conn);
-            using var rdr = cmd.ExecuteReader();
-            while (rdr.Read())
+        public void UpdateDatabase(int addKills)
+        {
+            if (currentUserId <= 0)
             {
-                rows.Add(new ScoreBoard
-                {
-                    Id = rdr.GetInt32("id"),
-                    Name = rdr.GetString("username"),
-                    Score = rdr.GetInt32("kill"),
-                    Win = rdr.GetInt32("win")
-                });
+                Debug.LogWarning("Nincs bejelentkezve felhasználó.");
+                return;
             }
 
-            test.text = $"Rekordok száma: {rows.Count}";
-        }
-        catch (Exception ex) { test.text = "DB-hiba: " + ex.Message; }
-    } // for test
+            try
+            {
+                using var conn = new MySqlConnection(CS);
+                conn.Open();
 
-    public void UpdateDatabase(int addKills)
-    {
-        if (currentUserId <= 0)
-        {
-            Debug.LogWarning("Nincs bejelentkezve felhasználó.");
-            return;
-        }
-
-        try
-        {
-            using var conn = new MySqlConnection(CS);
-            conn.Open();
-
-            const string upd = @"
+                const string upd = @"
             UPDATE `Scoreboard`
             SET    `kill` = `kill` + @k,
                    `win`  = `win`  + 1
             WHERE  `user_id` = @id";
-            using var updCmd = new MySqlCommand(upd, conn);
-            updCmd.Parameters.AddWithValue("@k", addKills);
-            updCmd.Parameters.AddWithValue("@id", currentUserId);
+                using var updCmd = new MySqlCommand(upd, conn);
+                updCmd.Parameters.AddWithValue("@k", addKills);
+                updCmd.Parameters.AddWithValue("@id", currentUserId);
 
-            int rows = updCmd.ExecuteNonQuery(); 
-            Debug.Log($"UPDATE sorok: {rows}");
+                int rows = updCmd.ExecuteNonQuery();
+                Debug.Log($"UPDATE sorok: {rows}");
 
-            if (rows == 0)
-            {
-                const string ins = @"
+                if (rows == 0)
+                {
+                    const string ins = @"
                 INSERT INTO `Scoreboard` (`user_id`, `kill`, `win`)
                 VALUES (@id, @k, 1)";
-                using var insCmd = new MySqlCommand(ins, conn);
-                insCmd.Parameters.AddWithValue("@id", currentUserId);
-                insCmd.Parameters.AddWithValue("@k", addKills);
+                    using var insCmd = new MySqlCommand(ins, conn);
+                    insCmd.Parameters.AddWithValue("@id", currentUserId);
+                    insCmd.Parameters.AddWithValue("@k", addKills);
 
-                int insRows = insCmd.ExecuteNonQuery();
-                Debug.Log($"INSERT sorok: {insRows}");
+                    int insRows = insCmd.ExecuteNonQuery();
+                    Debug.Log($"INSERT sorok: {insRows}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("DB-hiba frissítéskor: " + ex.Message);
             }
         }
-        catch (Exception ex)
+        public void TryLogin()
         {
-            Debug.LogError("DB-hiba frissítéskor: " + ex.Message);
-        }
-    }
+            string user = usernameInput.text.Trim();
+            string pass = passwordInput.text.Trim();
 
-    public void TryLogin()
-    {
-        string user = usernameInput.text.Trim();
-        string pass = passwordInput.text.Trim();
+            try
+            {
+                using var conn = new MySqlConnection(CS);
+                conn.Open();
 
-        try
-        {
-            using var conn = new MySqlConnection(CS);
-            conn.Open();
-
-            const string sql = @"
+                const string sql = @"
             SELECT id, username, email, password 
             FROM users
             WHERE username = @u;
@@ -131,101 +92,101 @@ public class DataBaseManager : MonoBehaviour
             FROM Scoreboard
             WHERE user_id = (SELECT id FROM users WHERE username = @u);";
 
-            using var cmd = new MySqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@u", user);
+                using var cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@u", user);
 
-            using var rdr = cmd.ExecuteReader();
+                using var rdr = cmd.ExecuteReader();
 
-            if (!rdr.Read()) {
+                if (!rdr.Read())
+                {
                     Debug.Log("Nincs ilyen felhasználó.");
-                    errorSfxPlayer.PlayOneShot(errorSound);
+                    AudioManager.Instance.PlaySfx("ErrorSfx");
                     return;
                 }
 
-
                 int dbId = rdr.GetInt32("id");
-            string dbUser = rdr.GetString("username");
-            string dbMail = rdr.GetString("email");
-            string dbPass = rdr.GetString("password");
+                string dbUser = rdr.GetString("username");
+                string dbMail = rdr.GetString("email");
+                string dbPass = rdr.GetString("password");
 
-            if (pass != dbPass) {
-                        Debug.Log("Hibás jelszó.");
-                        errorSfxPlayer.PlayOneShot(errorSound);
-                        return;
+                if (pass != dbPass)
+                {
+                    Debug.Log("Hibás jelszó.");
+                    AudioManager.Instance.PlaySfx("ErrorSfx");
+                    return;
                 }
                 string dbKills = "0";
-            string dbWins = "0";
+                string dbWins = "0";
 
-            if (rdr.NextResult() && rdr.Read())
-            {
-                dbKills = rdr["kill"].ToString();
-                dbWins = rdr["win"].ToString();
+                if (rdr.NextResult() && rdr.Read())
+                {
+                    dbKills = rdr["kill"].ToString();
+                    dbWins = rdr["win"].ToString();
+                }
+
+                currentUserId = dbId;
+
+                LoginPanel.SetActive(false);
+                ProfilPanel.SetActive(true);
+
+                ProfileManager.Instance?.SetProfile(dbUser, dbMail, dbKills, dbWins);
+                AudioManager.Instance.PlaySfx("ButtonClickSfx");
+                Debug.Log($"Bejelentkezve: {dbUser} (id={dbId})");
             }
-
-            currentUserId = dbId;
-
-            LoginPanel.SetActive(false);
-            ProfilPanel.SetActive(true);
-
-            profileManager?.SetProfile(dbUser, dbMail, dbKills, dbWins);
-            Debug.Log($"Bejelentkezve: {dbUser} (id={dbId})");
-            correctSfxPlayer.PlayOneShot(correctSound);
+            catch (Exception ex)
+            {
+                Debug.LogError("DB-hiba login közben: " + ex.Message);
+            }
         }
-        catch (Exception ex)
+        public void LogOut()
         {
-            Debug.LogError("DB-hiba login közben: " + ex.Message);
+            currentUserId = -1;
+            usernameInput.text = passwordInput.text = "";
+
+            LoginPanel.SetActive(true);
+            ProfilPanel.SetActive(false);
+
+            Debug.Log("Kijelentkezve.");
         }
-    }
-
-    public void LogOut()
-    {
-        currentUserId = -1;
-        usernameInput.text = passwordInput.text = "";
-
-        LoginPanel.SetActive(true); 
-        ProfilPanel.SetActive(false); 
-
-        Debug.Log("Kijelentkezve.");
-    }
-
-    public void RefreshProfile()
-    {
-        try
+        public void RefreshProfile()
         {
-            using var conn = new MySqlConnection(CS);
-            conn.Open();
+            try
+            {
+                using var conn = new MySqlConnection(CS);
+                conn.Open();
 
-            const string sql = @"
+                const string sql = @"
             SELECT u.username, u.email, s.kill, s.win
             FROM   users u
             JOIN   Scoreboard s ON s.user_id = u.id
             WHERE  u.id = @id
             LIMIT  1;";
 
-            using var cmd = new MySqlCommand(sql, conn);
-            cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = currentUserId;
+                using var cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = currentUserId;
 
-            using var rdr = cmd.ExecuteReader();
+                using var rdr = cmd.ExecuteReader();
 
-            if (!rdr.Read())
-            {
-                Debug.LogWarning("Nem találtam felhasználót a frissítéshez.");
-                return;
+                if (!rdr.Read())
+                {
+                    Debug.LogWarning("Nem találtam felhasználót a frissítéshez.");
+                    return;
+                }
+
+                string username = rdr.GetString("username");
+                string email = rdr.GetString("email");
+                string kills = rdr.GetInt32("kill").ToString();
+                string wins = rdr.GetInt32("win").ToString();
+
+                ProfileManager.Instance?.SetProfile(username, email, kills, wins);
             }
-
-            string username = rdr.GetString("username");
-            string email = rdr.GetString("email");
-            string kills = rdr.GetInt32("kill").ToString();
-            string wins = rdr.GetInt32("win").ToString();
-
-            profileManager?.SetProfile(username, email, kills, wins);
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Hiba profilfrissítés közben: " + ex.Message);
+            catch (Exception ex)
+            {
+                Debug.LogError("Hiba profilfrissítés közben: " + ex.Message);
+            }
         }
     }
-
 }
+
 
 

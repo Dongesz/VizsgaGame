@@ -1,22 +1,38 @@
-// @desc: Controls the visibility of the resource bar on mouse hover over a stone mine
-// @lastWritten: 2025-06-27
-// @upToDate: false
+// @desc: WorkInProgress
+// @lastWritten: 2025-07-08
+// @upToDate: True
+using CastL.Managers;
+using CastL.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoneMine : MonoBehaviour
-{
-    [SerializeField] private SpriteRenderer bar;
-    
-    
-    private void OnMouseEnter()
+namespace CastL.Gameplay
+{   /*
+    public class StoneMine : MonoBehaviour
     {
-        bar.color = new Color(bar.color.r, bar.color.g, bar.color.b, 1f);
-    }
-    private void OnMouseExit()
-    {
-        bar.color = new Color(bar.color.r, bar.color.g, bar.color.b, 0f);
+        public CooldownBarAnimator cooldownScript;
 
-    }
+        private void Awake()
+        {
+            cooldownScript = GetComponent<CooldownBarAnimator>();
+        }
+        private void Update()
+        {
+            if (WaveManager.Instance.isWaveActive && cooldownScript.finished)
+            {
+                PlayerStatsManager.Instance.IncreaseCurrency(50);
+                cooldownScript.finished = false;
+            }
+        }
+        public void StartMining()
+        {
+            cooldownScript.StartMiningAnimation();
+        }
+        public void StopMining()
+        {
+            cooldownScript.StopMiningAnimation();
+        }
+    }*/
 }
+

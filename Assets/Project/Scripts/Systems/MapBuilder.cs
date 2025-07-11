@@ -1,51 +1,66 @@
-﻿// @desc: Builds the selected level by assigning path points and plot references to LevelManager
-// @lastWritten: 2025-06-27
-// @upToDate: false
+﻿// @desc: Builds the selected level by assigning path points and plots
+// @lastWritten: 2025-07-05
+// @upToDate: true
+using CastL.Data;
+using CastL.Gameplay;
+using CastL.Managers;
+using CastL.System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class MapBuilder : MonoBehaviour
+namespace CastL.System
 {
-    [SerializeField] private LevelManager levelManager;
-    public static List<Plot> plotsInLevel = new List<Plot>();
-    public GameObject selectedLevel;
+    public class MapBuilder : MonoBehaviour
+    {
+        public static MapBuilder Instance;
 
-    public void SetSelectedLevel(GameObject level)
-    {
-        selectedLevel = level;
-        StartCoroutine(BuildAfterFrame());
-    }
-    private IEnumerator BuildAfterFrame()
-    {
-        yield return null;
-        BuildLevel();
-    }
-    private void BuildLevel()
-    {
-        if (selectedLevel == null || levelManager == null)
+        public static List<TowerBuilder> plotsInLevel = new List<TowerBuilder>();
+        public GameObject selectedLevel;
+
+        private void Awake()
         {
-            Debug.LogError("MapBuilder: Hiányzik valamelyik referencia.");
-            return;
+            Instance = this;
         }
-
-        Transform pathParent = selectedLevel.transform.Find("Path");
-        if (pathParent == null)
+        
+        public void SetSelectedLevel(GameObject level)
         {
-            Debug.LogError("MapBuilder: Path nem található a pályán.");
-            return;
+            selectedLevel = level;
+            StartCoroutine(BuildAfterFrame());
         }
+        private IEnumerator BuildAfterFrame()
+        {
+            yield return null;
+            BuildLevel();
+        }
+        private void BuildLevel()
+        {
+            if (selectedLevel == null)
+            {
+                Debug.LogError("MapBuilder: Hiányzik a selectedLevel referencia.");
+                return;
+            }
 
-        List<Transform> pathPoints = new List<Transform>();
-        foreach (Transform child in pathParent)
-            pathPoints.Add(child);
-        pathPoints.Add(selectedLevel.transform.Find("End point"));
-        levelManager.path = pathPoints.ToArray();
-        levelManager.StartPoint = selectedLevel.transform.Find("Start point");
-        levelManager.EndPoint = selectedLevel.transform.Find("End point");
+            Transform pathParent = selectedLevel.transform.Find("Path");
+            if (pathParent == null)
+            {
+                Debug.LogError("MapBuilder: Path nem található a pályán.");
+                return;
+            }
 
-        plotsInLevel.Clear();
-        Plot[] plots = selectedLevel.GetComponentsInChildren<Plot>(true);
-        plotsInLevel.AddRange(plots);
+            List<Transform> pathPoints = new List<Transform>();
+            foreach (Transform child in pathParent)
+                pathPoints.Add(child);
+            pathPoints.Add(selectedLevel.transform.Find("End point"));
+            LevelDataHolder.Instance.path = pathPoints.ToArray();
+            LevelDataHolder.Instance.StartPoint = selectedLevel.transform.Find("Start point");
+            LevelDataHolder.Instance.EndPoint = selectedLevel.transform.Find("End point");
+
+            plotsInLevel.Clear();
+            TowerBuilder[] plots = selectedLevel.GetComponentsInChildren<TowerBuilder>(true);
+            plotsInLevel.AddRange(plots);
+        }
     }
+
 }

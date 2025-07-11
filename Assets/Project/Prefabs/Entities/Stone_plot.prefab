@@ -104,7 +104,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: stonespawn
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8989580511439556189, guid: 18c5d0fba4e2d3841aeb0f393763dfcb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
