@@ -8,21 +8,22 @@
 | TowerDataHolder      | Serializable data class representing a tower… | 2025-07-03   | True     |
 | AudioManager         | Loads all SFX AudioClips dynamically from Re… | 2025-07-08   | True     |
 | BuildManager         | Manages tower selection logic and provides a… | 2025-07-03   | True     |
-| DataBaseManager      | Handles MySQL database connection for login,… | 2025-07-08   | True     |
+| DataBaseManager      | WorkInProgress                                | 2025-07-08   | True     |
 | EnemyManager         | Manages global enemy tracking, registration,… | 2025-07-05   | True     |
-| GameManager          | Handles game state transitions (win/loss), r… | 2025-07-08   | True     |
+| GameLoopManager      |                                               | 2025-07-10   | False    |
 | MainMenuManager      | Manages main menu actions including scene ex… | 2025-07-07   | True     |
-| PlayerStatsManager   | Manages player stats such as currency, kills… | 2025-06-30   | True     |
+| PlayerStatsManager   | Manages player stats such as currency, kills… | 2025-07-08   | True     |
 | PlotManager          | Controls plot lifecycle operations including… | 2025-07-05   | True     |
 | ProfileManager       | Displays player profile data (username, emai… | 2025-07-1    | True     |
-| TimerManager         | Manages game timer state                      | 2025-07-1    | True     |
-| TowerManager         | Handles destroying all placed towers in the … | 2025-07-03   | True     |
-| WaveManager          | Controls wave spawning, difficulty scaling, … | 2025-06-30   | True     |
+| TowerManager         | WorkInProgress                                | 2025-07-03   | True     |
 | EnemyBehaviour       | Controls per-enemy behaviour including initi… | 2025-07-05   | True     |
 | EnemyMovement        | Controls enemy movement along path            | 2025-07-05   | True     |
-| EnemySpawner         | Spawns enemy prefabs based on Enemy data and… | 2025-07-05   | True     |
+| EnemySpawner         | Spawns enemy prefabs based on Enemy data and… | 2025-07-09   | False    |
+| IdleStateLogic       | WorkInProgress                                | 2025-07-10   | False    |
 | MapBuilder           | Builds the selected level by assigning path … | 2025-07-05   | True     |
-| CooldownBarAnimator  | Animates cooldown bar sprite sequence during… | 2025-07-03   | True     |
+| RunningStateLogic    |                                               | 2025-07-10   | False    |
+| StoppedStateLogic    |                                               | 2025-07-10   | False    |
+| CooldownBarAnimator  | WorkInPogress                                 | 2025-07-08   | True     |
 | GameBuyMenu          | Controls game menu UI, stat display, sprite … | 2025-07-03   | True     |
 | PlotUI               | Manages visual feedback for plots, including… | 2025-07-05   | True     |
 | SlimeAnimator        | Animates sprite frames and flips sprite dire… | 2025-07-07   | True     |
@@ -33,6 +34,6 @@
 | BasicBullet          | Controls bullet movement, damage application… | 2025-07-05   | True     |
 | TowerBuilder         | Handles build logic on plots, including vali… | 2025-07-05   | True     |
 | BaseTurret           | Handles turret targeting, shooting logic, an… | 2025-07-03   | True     |
-| StoneMine            | Starts mining when a wave begins and grants … | 2025-07-03   | True     |
+| StoneMine            | WorkInProgress                                | 2025-07-08   | True     |
 
-Total: 32   Fresh: 32   Stale: 0
+Total: 33   Fresh: 28   Stale: 5

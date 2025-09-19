@@ -4,13 +4,13 @@
 using CastL.Data;
 using CastL.Gameplay;
 using CastL.Managers;
-using CastL.System;
+using CastL.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace CastL.System
+namespace CastL.Systems
 {
     public class MapBuilder : MonoBehaviour
     {

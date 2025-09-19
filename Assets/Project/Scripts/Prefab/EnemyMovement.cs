@@ -11,7 +11,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CastL.Prefab
+namespace CastL.Prefabs
 {
     public class EnemyMovement : MonoBehaviour
     {

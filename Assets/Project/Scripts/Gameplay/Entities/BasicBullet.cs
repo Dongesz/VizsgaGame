@@ -1,7 +1,7 @@
 // @desc: Controls bullet movement, damage application, and auto-destruction after delay or collision
 // @lastWritten: 2025-07-05
 // @upToDate: true
-using CastL.Prefab;
+using CastL.Prefabs;
 using CastL.System;
 using System.Collections;
 using UnityEngine;

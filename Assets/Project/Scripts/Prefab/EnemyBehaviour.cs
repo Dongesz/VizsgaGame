@@ -5,7 +5,7 @@ using CastL.Data;
 using CastL.Managers;
 using UnityEngine;
 
-namespace CastL.Prefab
+namespace CastL.Prefabs
 {
     public class EnemyBehaviour : MonoBehaviour
     {

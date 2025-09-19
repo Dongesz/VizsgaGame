@@ -109,7 +109,6 @@
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\GeneralSimpleUI.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\GeneralEasingTypes.cs" />
-    <Compile Include="Assets\Project\Scripts\Managers\DataBaseManager.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Testing\TestingIssue.cs" />
@@ -166,12 +165,14 @@
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\Project\Scripts\Gameplay\Towers\BaseTurret.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Testing\Testing240.cs" />
+    <Compile Include="Assets\Project\Scripts\Database\DataBaseFactory.cs" />
     <Compile Include="Assets\Project\Scripts\Managers\PlayerStatsManager.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Testing\Scripts\LeanPool.cs" />
     <Compile Include="Assets\Project\Scripts\Gameplay\Enemies\SlimeEnemy.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\LogoCinematic.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\Project\Scripts\Gameplay\Towers\StoneMine.cs" />
+    <Compile Include="Assets\Project\Scripts\Database\DataBaseManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ThirdParty\TextMesh Pro\Shaders\TMPro.cginc" />

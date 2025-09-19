@@ -3,14 +3,14 @@
 // @upToDate: false
 using CastL.Data;
 using CastL.Managers;
-using CastL.Prefab;
+using CastL.Prefabs;
 using CastL.System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CastL.System
+namespace CastL.Systems
 {
     public class EnemySpawner : MonoBehaviour
     {
