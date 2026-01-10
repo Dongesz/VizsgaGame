@@ -30,17 +30,12 @@ namespace CastL.Managers
             idle = GetComponent<IdleStateLogic>();
             running = GetComponent<RunningStateLogic>();
             stopped = GetComponent<StoppedStateLogic>();
+            Debug.Log("GameLoopManager instance ID: " + GetInstanceID());
+
         }
 
         public void Update()
         {
-
-            if (current != prev)
-            {
-                ExitState(prev);
-                EnterState(current);
-                prev = current;
-            }
 
             if (current == GameState.Running)
             {
@@ -68,7 +63,7 @@ namespace CastL.Managers
                 GameState.Idle => GameState.Running,
                 _ => current
             };
-
+            Debug.Log(current);
             ChangeGameState(next);
         }
 

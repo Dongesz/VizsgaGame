@@ -24,8 +24,13 @@ namespace CastL.UI
 
         public void UpdateSprite(GameLoopManager.GameState state)
         {
-            startStopImage.sprite = (state == GameLoopManager.GameState.Running) ? spritePause : spritePlay;    
-                                        
+            startStopImage.sprite = (state == GameLoopManager.GameState.Running) ? spritePause : spritePlay;
+            Debug.Log(
+    "TimerUI got state: " + state +
+    " from manager ID: " + GameLoopManager.Instance.GetInstanceID()
+);
+
+
         }
     }
 }

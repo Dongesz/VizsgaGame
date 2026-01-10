@@ -165,24 +165,20 @@
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\Project\Scripts\Gameplay\Towers\BaseTurret.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Testing\Testing240.cs" />
-    <Compile Include="Assets\Project\Scripts\Database\DataBaseFactory.cs" />
     <Compile Include="Assets\Project\Scripts\Managers\PlayerStatsManager.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Testing\Scripts\LeanPool.cs" />
     <Compile Include="Assets\Project\Scripts\Gameplay\Enemies\SlimeEnemy.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\LogoCinematic.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\Project\Scripts\Gameplay\Towers\StoneMine.cs" />
-    <Compile Include="Assets\Project\Scripts\Database\DataBaseManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ThirdParty\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\ThirdParty\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Project\Scripts\Data\README.txt" />
     <None Include="Assets\Project\Scripts\Gameplay\README.txt" />
-    <None Include="Assets\Project\Scripts\Tests\README.txt" />
     <None Include="Assets\Project\Scripts\Systems\README.txt" />
     <None Include="Assets\ThirdParty\LeanTween\ReadMe.txt" />
-    <None Include="Assets\Project\Scripts\Core\README.txt" />
     <None Include="Assets\ThirdParty\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
     <None Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
