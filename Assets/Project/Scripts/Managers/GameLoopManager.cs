@@ -16,6 +16,7 @@ namespace CastL.Managers
     {
         [Header("References")]
         public static GameLoopManager Instance;
+        EnemyManager enemyManager;
         private IdleStateLogic idle;
         private RunningStateLogic running;
         private StoppedStateLogic stopped;
@@ -30,6 +31,7 @@ namespace CastL.Managers
             idle = GetComponent<IdleStateLogic>();
             running = GetComponent<RunningStateLogic>();
             stopped = GetComponent<StoppedStateLogic>();
+            enemyManager = EnemyManager.Instance;
         }
 
         public void Update()
@@ -80,6 +82,7 @@ namespace CastL.Managers
             if (current == GameState.Idle)
                 return;
 
+            enemyManager.DestroyAllEnemies();
             ChangeGameState(GameState.Idle);
         }
 
