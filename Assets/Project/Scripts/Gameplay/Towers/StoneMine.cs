@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace CastL.Gameplay
-{   /*
+{   
     public class StoneMine : MonoBehaviour
     {
         public CooldownBarAnimator cooldownScript;
@@ -19,20 +19,15 @@ namespace CastL.Gameplay
         }
         private void Update()
         {
-            if (WaveManager.Instance.isWaveActive && cooldownScript.finished)
-            {
-                PlayerStatsManager.Instance.IncreaseCurrency(50);
-                cooldownScript.finished = false;
-            }
+            if (GameLoopManager.Instance.current != GameLoopManager.GameState.Running)
+                return;
+
+            if (!cooldownScript.finished)
+                return;
+
+            PlayerStatsManager.Instance.IncreaseCurrency(50);
+            cooldownScript.finished = false;
         }
-        public void StartMining()
-        {
-            cooldownScript.StartMiningAnimation();
-        }
-        public void StopMining()
-        {
-            cooldownScript.StopMiningAnimation();
-        }
-    }*/
+    }
 }
 

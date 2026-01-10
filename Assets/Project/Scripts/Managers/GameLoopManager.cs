@@ -75,6 +75,14 @@ namespace CastL.Managers
             if (state == GameState.Idle) idle.ExitIdle();
             else if (state == GameState.Stopped) stopped.ExitPausedState();
         }
+        public void ExitToIdle()
+        {
+            if (current == GameState.Idle)
+                return;
+
+            ChangeGameState(GameState.Idle);
+        }
+
     }
 }
 

@@ -9,52 +9,58 @@ namespace CastL.UI
 {
     public class CooldownBarAnimator : MonoBehaviour
     {
-        /*
-        public SpriteRenderer cooldownRenderer; // A SpriteRenderer komponens, amely a cooldown sprite-ot jeleníti meg
-        public Sprite[] cooldownSprites; // A 7 sprite tárolása
-        public float cooldownDuration = 2.0f; // Teljes cooldown idõ
-        public float timePerFrame;
-        public int currentFrame;
-        public float timer;
+        public SpriteRenderer cooldownRenderer;
+        public Sprite[] cooldownSprites;
+        public float cooldownDuration = 2f;
+
+        private float timePerFrame;
+        private int currentFrame;
+        private float timer;
+
         public bool finished;
-        public void StartMiningAnimation()
-        {
-            StopAllCoroutines();
-            StartCoroutine(AnimateCooldown());
-        }
-        public void StopMiningAnimation()
-        {
-            StopAllCoroutines();
-        }
-        private IEnumerator AnimateCooldown()
+
+        private Coroutine routine;
+
+        private void Start()
         {
             timePerFrame = cooldownDuration / cooldownSprites.Length;
+            routine = StartCoroutine(AnimateCooldown());
+        }
+
+        private IEnumerator AnimateCooldown()
+        {
             currentFrame = 0;
             timer = 0f;
+            finished = false;
+            cooldownRenderer.sprite = cooldownSprites[0];
 
-            while (WaveManager.Instance.isWaveActive)
+            while (true)
             {
+                if (GameLoopManager.Instance.current != GameLoopManager.GameState.Running)
+                {
+                    yield return null;
+                    continue;
+                }
+
                 timer += Time.deltaTime;
 
                 if (timer >= timePerFrame)
                 {
                     timer -= timePerFrame;
-                    currentFrame = (currentFrame + 1) % cooldownSprites.Length;
-                    cooldownRenderer.sprite = cooldownSprites[currentFrame];
-                }
+                    currentFrame++;
 
-                if (currentFrame == 0)
-                {
-                    finished = true;
-                }
-                else
-                {
-                    finished = false;
+                    if (currentFrame >= cooldownSprites.Length)
+                    {
+                        currentFrame = 0;
+                        finished = true;  
+                    }
+
+                    cooldownRenderer.sprite = cooldownSprites[currentFrame];
                 }
 
                 yield return null;
             }
-        }*/
+        }
     }
 
 }
