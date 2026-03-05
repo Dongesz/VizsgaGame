@@ -84,6 +84,7 @@ namespace CastL.Managers
 
             enemyManager.DestroyAllEnemies();
             ChangeGameState(GameState.Idle);
+
         }
 
     }

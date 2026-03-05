@@ -63,6 +63,7 @@
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\GeneralCameraShake.cs" />
     <Compile Include="Assets\Project\Scripts\Managers\AudioManager.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\Project\Scripts\Systems\ApiClinet.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\PathBezier2d.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Framework\LeanTween.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Testing\TestingDescr.cs" />
@@ -126,6 +127,8 @@
     <Compile Include="Assets\ThirdParty\LeanTween\Testing\Testing246.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\PathSplineEndless.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
+    <Compile Include="Assets\Project\Scripts\Managers\ProfilDataManager.cs" />
+    <Compile Include="Assets\Project\Scripts\Managers\AuthManager.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Framework\LeanAudio.cs" />
     <Compile Include="Assets\Project\Scripts\UI\SwipeController.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Framework\LeanTest.cs" />

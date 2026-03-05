@@ -123,15 +123,15 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Logo
     originalName: 
-    pivot: {x: 0.5, y: 0.3611111}
+    pivot: {x: 0.4888889, y: 0.5294118}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 36
-      height: 36
+      width: 45
+      height: 51
     spriteID: 1e391b2a395bdd140ae6768a852233c2
     spriteBone: []
     spriteOutline: []
@@ -153,10 +153,10 @@ ScriptedImporter:
     - name: Logo
       frameIndex: 0
       cellRect:
-        x: 14
-        y: 19
-        width: 36
-        height: 36
+        x: 10
+        y: 5
+        width: 45
+        height: 51
       spriteId: 1e391b2a395bdd140ae6768a852233c2
     linkedCells: []
     parentIndex: -1

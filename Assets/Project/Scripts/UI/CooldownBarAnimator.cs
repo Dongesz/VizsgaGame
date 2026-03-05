@@ -26,7 +26,6 @@ namespace CastL.UI
             timePerFrame = cooldownDuration / cooldownSprites.Length;
             routine = StartCoroutine(AnimateCooldown());
         }
-
         private IEnumerator AnimateCooldown()
         {
             currentFrame = 0;
