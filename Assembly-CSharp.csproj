@@ -149,6 +149,7 @@
     <Compile Include="Assets\Project\Scripts\Prefab\EnemyMovement.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Framework\LTDescr.cs" />
     <Compile Include="Assets\ThirdParty\LeanTween\Examples\Scripts\PathSpline2d.cs" />
+    <Compile Include="Assets\Project\Scripts\Managers\EndScreenRefresher.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\ThirdParty\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />

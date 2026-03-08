@@ -61,7 +61,7 @@ namespace CastL.Gameplay
             }
             else
             {
-                target = null; // Biztosítsuk, hogy a target null legyen, ha nincs találat
+                target = null; 
             }
         }
         private bool CheckTargetIsInRange()

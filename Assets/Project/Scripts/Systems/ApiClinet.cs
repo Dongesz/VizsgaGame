@@ -84,7 +84,7 @@ public static class ApiClient
             yield break;
         }
 
-        string url = $"{BaseUrl}/Scoreboard/me";
+        string url = $"{BaseUrl}/main/Scoreboard/me";
         string jsonBody = $"{{\"totalScore\":{totalScore},\"totalKills\":{totalKills}}}";
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
 

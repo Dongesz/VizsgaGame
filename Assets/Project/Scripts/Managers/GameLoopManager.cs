@@ -84,9 +84,18 @@ namespace CastL.Managers
 
             enemyManager.DestroyAllEnemies();
             ChangeGameState(GameState.Idle);
-
         }
 
+        /// <summary>Előbb menti a score-t, és csak a mentés befejezése után lép menübe (Idle). A „Menü” gombnak ezt hívja.</summary>
+        public void SaveScoreAndExitToIdle()
+        {
+            if (PlayerStatsManager.Instance == null)
+            {
+                ExitToIdle();
+                return;
+            }
+            PlayerStatsManager.Instance.SaveScoreAndThen(ExitToIdle);
+        }
     }
 }
 
