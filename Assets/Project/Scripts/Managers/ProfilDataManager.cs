@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ProfileDataManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text emailText;
+    [SerializeField] private TMP_Text killsText;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private RawImage profileImage;
 
@@ -26,7 +26,7 @@ public class ProfileDataManager : MonoBehaviour
             {
                 Debug.Log("GetMyUserResult onSuccess, url: " + me.profilePictureUrl);
                 nameText.text = me.name;
-                emailText.text = me.email;
+                killsText.text = me.totalKills.ToString();
                 scoreText.text = me.totalScore.ToString();
 
                 StartCoroutine(LoadImage(me.profilePictureUrl));

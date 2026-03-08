@@ -33,6 +33,8 @@ namespace CastL.Prefabs
 
         protected virtual void Die()
         {
+            if (AudioManager.Instance != null && enemyData.deathSfx != null)
+                AudioManager.Instance.PlaySfx(enemyData.deathSfx);
             PlayerStatsManager.Instance.IncreaseCurrency(enemyData.currencyWorth);
             PlayerStatsManager.Instance.IncreaseKills(1);
             EnemyManager.Instance?.UnRegisterEnemy();
@@ -47,7 +49,7 @@ namespace CastL.Prefabs
         }
         private void OnDestroy()
         {
-            Debug.Log(gameObject.name + " OnDestroy meghÌvÛdott.");
+            Debug.Log(gameObject.name + " OnDestroy meghùvùdott.");
             EnemyManager.Instance?.UnRegisterEnemy();
         }
     }

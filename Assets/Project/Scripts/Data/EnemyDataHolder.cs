@@ -15,6 +15,8 @@ namespace CastL.Data
         public int damage;
         public int currencyWorth;
         public GameObject prefab;
+        [Tooltip("Halalhang lejatszasa amikor az ellenfel meghal.")]
+        public AudioClip deathSfx;
     }
 
 }
