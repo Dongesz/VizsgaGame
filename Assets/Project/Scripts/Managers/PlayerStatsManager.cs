@@ -87,17 +87,32 @@ namespace CastL.Managers
             );
             if (me != null)
             {
+                // Prev értékek: a szerver szerinti eddigi totalok (mentés ELÕTT)
                 _previousTotalScore = me.totalScore;
                 _previousTotalKills = me.totalKills;
-                RefreshEndScreenStats();
-                int newTotalScore = Mathf.Max(0, me.totalScore + currency);
-                int newTotalKills = Mathf.Max(0, me.totalKills + kills);
+
+                // Szerzett értékek: aktuális session eredménye (currency / kills - start)
+                int gainedScore = Mathf.Max(0, currency - Startcurrency);
+                int gainedKills = Mathf.Max(0, kills - Startkills);
+
+                // UI-n: prev = eddigi total, gained = session növekmény
+                if (previousScoreText != null)
+                    previousScoreText.text = Mathf.Max(0, _previousTotalScore).ToString();
+                if (previousKillsText != null)
+                    previousKillsText.text = Mathf.Max(0, _previousTotalKills).ToString();
+                if (gainedScoreText != null)
+                    gainedScoreText.text = "+" + gainedScore;
+                if (gainedKillsText != null)
+                    gainedKillsText.text = "+" + gainedKills;
+
+                // Mentés: eddigi total + session növekmény
+                int newTotalScore = Mathf.Max(0, me.totalScore + gainedScore);
+                int newTotalKills = Mathf.Max(0, me.totalKills + gainedKills);
                 yield return ApiClient.UpdateMyScoreboard(newTotalScore, newTotalKills);
-                _previousTotalScore = newTotalScore;
-                _previousTotalKills = newTotalKills;
             }
+
+            // Session statok resetje a következõ körhöz ? a kijelzett értékeket már nem piszkáljuk
             ResetPlayerStats();
-            RefreshEndScreenStats();
             ResetAllTowersAndPlots();
             onComplete?.Invoke();
         }
