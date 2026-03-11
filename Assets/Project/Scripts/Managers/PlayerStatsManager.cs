@@ -154,8 +154,7 @@ namespace CastL.Managers
             StartCoroutine(SaveScoreboardToBackendCoroutine(null));
         }
 
-        /// <summary>Mentés, majd a megadott akció (pl. menübe lépés) a mentés befejezése után.</summary>
-        public void SaveScoreAndThen(Action onComplete)
+            public void SaveScoreAndThen(Action onComplete)
         {
             RefreshEndScreenStats();
             StartCoroutine(SaveScoreboardToBackendCoroutine(onComplete));

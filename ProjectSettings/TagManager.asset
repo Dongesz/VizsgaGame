@@ -10,6 +10,8 @@ TagManager:
   - MainCanvas
   - Castle
   - StoneMine
+  - stonemine
+  - Texture
   layers:
   - Default
   - TransparentFX
