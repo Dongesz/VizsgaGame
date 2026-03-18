@@ -16,7 +16,10 @@ namespace CastL.Managers
     {
         [Header("References")]
         public static GameLoopManager Instance;
-        EnemyManager enemyManager;
+        [SerializeField] private GameObject loseScreen;
+        [SerializeField] private GameObject winScreen;
+        [SerializeField] private AudioClip losesfx;
+        [SerializeField] private AudioClip winsfx;
         private IdleStateLogic idle;
         private RunningStateLogic running;
         private StoppedStateLogic stopped;
@@ -25,13 +28,16 @@ namespace CastL.Managers
 
         public GameState current = GameState.Idle;
         public GameState prev = GameState.Idle;
+
+        private bool _gameEnded;
+        
         private void Awake()
         {
             Instance = this;
             idle = GetComponent<IdleStateLogic>();
             running = GetComponent<RunningStateLogic>();
             stopped = GetComponent<StoppedStateLogic>();
-            enemyManager = EnemyManager.Instance;
+            
         }
 
         public void Update()
@@ -82,11 +88,57 @@ namespace CastL.Managers
             if (current == GameState.Idle)
                 return;
 
-            enemyManager.DestroyAllEnemies();
+            EnemyManager.Instance?.DestroyAllEnemies();
             ChangeGameState(GameState.Idle);
         }
 
-        /// <summary>Előbb menti a score-t, és csak a mentés befejezése után lép menübe (Idle). A „Menü” gombnak ezt hívja.</summary>
+        public void ShowLoseScreen()
+        {
+            if (_gameEnded) return;
+            _gameEnded = true;
+
+            ChangeGameState(GameState.Stopped);
+            if (AudioManager.Instance != null && losesfx != null) AudioManager.Instance.PlaySfx(losesfx);
+
+            if (loseScreen != null)
+            {
+                loseScreen.SetActive(true);
+            }
+        }
+
+        public void ShowWinScreen()
+        {
+            if (_gameEnded) return;
+            _gameEnded = true;
+
+            // Win esetén automatikusan mentjük a session eredményt (gomb nélkül).
+            PlayerStatsManager.Instance?.SaveScore();
+
+            ChangeGameState(GameState.Stopped);
+            if (AudioManager.Instance != null && winsfx != null) AudioManager.Instance.PlaySfx(winsfx);
+
+            if (winScreen != null)
+            {
+                winScreen.SetActive(true);
+            }
+        }
+
+        public void ResetAfterEndAndGoIdle()
+        {
+            _gameEnded = false;
+
+            if (loseScreen != null) loseScreen.SetActive(false);
+            if (winScreen != null) winScreen.SetActive(false);
+
+            if (PlayerStatsManager.Instance != null)
+            {
+                PlayerStatsManager.Instance.FullResetAfterLose();
+            }
+
+            EnemyManager.Instance?.DestroyAllEnemies();
+            ChangeGameState(GameState.Idle);
+        }
+
         public void SaveScoreAndExitToIdle()
         {
             if (PlayerStatsManager.Instance == null)

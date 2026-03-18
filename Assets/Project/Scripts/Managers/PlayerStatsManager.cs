@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace CastL.Managers
@@ -39,14 +38,32 @@ namespace CastL.Managers
         }
 
         public void IncreaseCurrency(int amount) => currency += amount;
-        public void IncreaseKills(int amount) => kills += amount;
-        public void DecreaseHp(int amount) => health -= amount;
+        public void IncreaseKills(int amount)
+        {
+            kills += amount;
+            if (kills >= 100 && GameLoopManager.Instance != null)
+            {
+                GameLoopManager.Instance.ShowWinScreen();
+            }
+        }
+        public void DecreaseHp(int amount)
+        {
+            health -= amount;
+            if (health <= 0)
+            {
+                health = 0;
+                if (GameLoopManager.Instance != null)
+                {
+                    GameLoopManager.Instance.ShowLoseScreen();
+                }
+            }
+        }
 
         public bool SpendCurrency(int amount)
         {
             if (amount > currency)
             {
-                Debug.Log("Nincs elùg pùnzed.");
+                Debug.Log("Nincs el?g p?nzed.");
                 return false;
             }
 
@@ -61,7 +78,7 @@ namespace CastL.Managers
             health = Starthealth;
         }
 
-        /// <summary>End screen megnyitùsakor lekùri a szerverr?l az eddigi totalokat ùs frissùti a UI-t.</summary>
+        /// <summary>End screen megnyit?sakor lek?ri a szerverr?l az eddigi totalokat ?s friss?ti a UI-t.</summary>
         public void LoadAndRefreshEndScreenStats()
         {
             StartCoroutine(FetchPreviousTotalsAndRefreshCoroutine());
@@ -87,15 +104,15 @@ namespace CastL.Managers
             );
             if (me != null)
             {
-                // Prev ÈrtÈkek: a szerver szerinti eddigi totalok (mentÈs EL’TT)
+                // Prev ?rt?kek: a szerver szerinti eddigi totalok (ment?s EL?TT)
                 _previousTotalScore = me.totalScore;
                 _previousTotalKills = me.totalKills;
 
-                // Szerzett ÈrtÈkek: aktu·lis session eredmÈnye (currency / kills - start)
+                // Szerzett ?rt?kek: aktu?lis session eredm?nye (currency / kills - start)
                 int gainedScore = Mathf.Max(0, currency - Startcurrency);
                 int gainedKills = Mathf.Max(0, kills - Startkills);
 
-                // UI-n: prev = eddigi total, gained = session nˆvekmÈny
+                // UI-n: prev = eddigi total, gained = session n?vekm?ny
                 if (previousScoreText != null)
                     previousScoreText.text = Mathf.Max(0, _previousTotalScore).ToString();
                 if (previousKillsText != null)
@@ -105,16 +122,22 @@ namespace CastL.Managers
                 if (gainedKillsText != null)
                     gainedKillsText.text = "+" + gainedKills;
 
-                // MentÈs: eddigi total + session nˆvekmÈny
+                // Ment?s: eddigi total + session n?vekm?ny
                 int newTotalScore = Mathf.Max(0, me.totalScore + gainedScore);
                 int newTotalKills = Mathf.Max(0, me.totalKills + gainedKills);
                 yield return ApiClient.UpdateMyScoreboard(newTotalScore, newTotalKills);
             }
 
-            // Session statok resetje a kˆvetkezı kˆrhˆz ? a kijelzett ÈrtÈkeket m·r nem piszk·ljuk
+            // Session statok resetje a k?vetkez? k?rh?z ? a kijelzett ?rt?keket m?r nem piszk?ljuk
             ResetPlayerStats();
             ResetAllTowersAndPlots();
             onComplete?.Invoke();
+        }
+
+        public void FullResetAfterLose()
+        {
+            ResetPlayerStats();
+            ResetAllTowersAndPlots();
         }
 
         private void ResetAllTowersAndPlots()

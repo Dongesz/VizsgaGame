@@ -3,7 +3,6 @@
 // @upToDate: True
 using System;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.UI;
 

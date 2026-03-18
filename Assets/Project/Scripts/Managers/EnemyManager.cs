@@ -3,6 +3,7 @@
 // @upToDate: true
 using System.Collections;
 using System.Collections.Generic;
+using CastL.Prefabs;
 using UnityEngine;
 
 namespace CastL.Managers
@@ -33,11 +34,21 @@ namespace CastL.Managers
         }
         public void DestroyAllEnemies()
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject enemy in enemies)
+            // Elsődlegesen komponens alapján törlünk, így nem kell a Tag-re támaszkodni.
+            var behaviours = Object.FindObjectsByType<EnemyBehaviour>(FindObjectsSortMode.None);
+            foreach (var b in behaviours)
             {
-                Destroy(enemy);
+                if (b != null) Destroy(b.gameObject);
             }
+
+            // Ha esetleg maradt olyan enemy, amin nincs EnemyBehaviour, a régi Tag-es törlés is lefut.
+            var enemiesByTag = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (var enemy in enemiesByTag)
+            {
+                if (enemy != null) Destroy(enemy);
+            }
+
+            activeEnemies = 0;
         }
     }
 }

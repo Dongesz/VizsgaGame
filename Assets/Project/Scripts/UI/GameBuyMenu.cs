@@ -15,6 +15,7 @@ namespace CastL.UI
     {
         [SerializeField] TextMeshProUGUI currencyUI;
         [SerializeField] TextMeshProUGUI killsUI;
+        [SerializeField] TextMeshProUGUI healthUI;
         [SerializeField] Animator anim;
         [SerializeField] private UnityEngine.UI.Image imageComponent;
         [SerializeField] private Sprite sprite1;
@@ -49,6 +50,7 @@ namespace CastL.UI
         {
             currencyUI.text = PlayerStatsManager.Instance.currency.ToString();
             killsUI.text = PlayerStatsManager.Instance.kills.ToString();
+            healthUI.text = PlayerStatsManager.Instance.health.ToString();
         }
     }
 
