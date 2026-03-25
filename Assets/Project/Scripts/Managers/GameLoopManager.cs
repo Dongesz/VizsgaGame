@@ -111,7 +111,6 @@ namespace CastL.Managers
             if (_gameEnded) return;
             _gameEnded = true;
 
-            // Win esetén automatikusan mentjük a session eredményt (gomb nélkül).
             PlayerStatsManager.Instance?.SaveScore();
 
             ChangeGameState(GameState.Stopped);
